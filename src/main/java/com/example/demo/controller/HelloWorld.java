@@ -29,6 +29,7 @@ public class HelloWorld {
     @ResponseBody
     public String studentsFuture() {
         strudentService.sendMessage("listenable future");
+
         return "true";
     }
 }

@@ -3,12 +3,16 @@ package com.example.demo.service;
 import com.example.demo.model.Account;
 import com.example.demo.repository.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaHandler;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-
 
 import java.util.List;
 
@@ -18,6 +22,7 @@ public class StrudentService {
     StudentRepo studentRepo;
     @Autowired
     KafkaTemplate<String, String> kafkaTemplate;
+
 
 
     private List<Account> studentInfo() {
@@ -48,7 +53,8 @@ public class StrudentService {
     public void sendMessage(String message) {
 
         ListenableFuture<SendResult<String,String>> future =
-                kafkaTemplate.send("student",1,"1", message);
+                kafkaTemplate.send("student",1,"1", "partition0");
+        kafkaTemplate.send("student",0,"1", "partition0");
 
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
@@ -64,5 +70,15 @@ public class StrudentService {
                         + message + "] due to : " + ex.getMessage());
             }
         });
+
+//        JsonSerializer<Account> serializer=new JsonSerializer<>();
+//        kafkaTemplate1.send("student",serializer.serialize("student",studentRepo.findById((long)1).get()));
     }
+
+//    @KafkaHandler
+//    @KafkaListener(topics = "student")
+//    public void readMessage(@Payload String msg,
+//                            @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key){
+//        System.out.println("msg from the kafka : "+msg+" key : "+ key);
+//    }
 }
