@@ -55,7 +55,8 @@ public class StrudentService {
             @Override
             public void onSuccess(SendResult<String, String> result) {
                 System.out.println("Sent message=[" + message +
-                        "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                        "] with offset=[" + result.getRecordMetadata().offset() + "]"+
+                        "] with topic name=[" + result.getRecordMetadata().topic() + "]");
             }
             @Override
             public void onFailure(Throwable ex) {
