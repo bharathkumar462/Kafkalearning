@@ -25,6 +25,7 @@ public class StrudentService {
 
 
 
+
     private List<Account> studentInfo() {
         return studentRepo.findAll();
     }

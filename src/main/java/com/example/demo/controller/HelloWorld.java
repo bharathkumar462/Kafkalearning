@@ -1,13 +1,17 @@
 package com.example.demo.controller;
 
+
+import com.example.demo.model.Customer;
 import com.example.demo.service.StrudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
 @Controller
 public class HelloWorld {
+
     @Autowired
     StrudentService strudentService;
 
@@ -31,5 +35,45 @@ public class HelloWorld {
         strudentService.sendMessage("listenable future");
 
         return "true";
+    }
+
+
+    @GetMapping("/")
+    public String create(Model model){
+            model.addAttribute("customer", new Customer());
+            return "insert";
+    }
+
+    @PostMapping("/customer")
+    @ResponseBody
+    public String greetingSubmit(@ModelAttribute Customer customer) {
+        strudentService.produceMessage("insert",customer.toString());
+        return customer.toString();
+    }
+
+    @GetMapping("/update")
+    public String update(Model model){
+        model.addAttribute("customer", new Customer());
+        return "update";
+    }
+
+    @PostMapping("/updated")
+    @ResponseBody
+    public String updated(@ModelAttribute Customer customer){
+        strudentService.produceMessage("update",customer.toString1());
+        return customer.toString1();
+    }
+
+    @GetMapping("/delete")
+    public String delete(Model model){
+        model.addAttribute("customer", new Customer());
+        return "delete";
+    }
+
+    @PostMapping("/deleted")
+    @ResponseBody
+    public String deleted(@ModelAttribute Customer customer){
+        strudentService.produceMessage("delete",customer.getId()+"");
+        return customer.getId()+"";
     }
 }
