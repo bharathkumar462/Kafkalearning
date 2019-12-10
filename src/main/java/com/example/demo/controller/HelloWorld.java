@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HelloWorld {
-
+static int i=0;
     @Autowired
     StrudentService strudentService;
 
@@ -47,7 +47,8 @@ public class HelloWorld {
     @PostMapping("/customer")
     @ResponseBody
     public String greetingSubmit(@ModelAttribute Customer customer) {
-        strudentService.produceMessage("insert",customer.toString());
+        strudentService.produceMessage(""+i,customer.toString());
+        i++;
         return customer.toString();
     }
 
@@ -60,7 +61,7 @@ public class HelloWorld {
     @PostMapping("/updated")
     @ResponseBody
     public String updated(@ModelAttribute Customer customer){
-        strudentService.produceMessage("update",customer.toString1());
+        strudentService.produceMessage(""+customer.getId(),customer.toString1());
         return customer.toString1();
     }
 
@@ -73,7 +74,7 @@ public class HelloWorld {
     @PostMapping("/deleted")
     @ResponseBody
     public String deleted(@ModelAttribute Customer customer){
-        strudentService.produceMessage("delete",customer.getId()+"");
+        strudentService.produceMessage(""+customer.getId(),customer.getId()+"");
         return customer.getId()+"";
     }
 }
