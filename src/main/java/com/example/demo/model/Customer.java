@@ -7,10 +7,19 @@ public class Customer {
     private int id;
     private String name;
     private int phoneNumber;
+    private String eventType;
 
     @Override
     public String toString() {
         return "" + name + "," +"" + phoneNumber ;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
 
     public String toString1() {

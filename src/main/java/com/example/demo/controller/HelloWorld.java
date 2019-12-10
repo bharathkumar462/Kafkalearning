@@ -6,36 +6,20 @@ import com.example.demo.service.StrudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
 public class HelloWorld {
-static int i=0;
+    final String CREATE_CUSTOMER="insert";
+    final String UPDATE_CUSTOMER="update";
+    final String DELETE_CUSTOMER="delete";
+    static int i=0;
     @Autowired
     StrudentService strudentService;
-
-//    @GetMapping("/students")
-//    @ResponseBody
-//    public String students() {
-//        strudentService.produceMessages();
-//        return "true";
-//    }
-//
-//    @GetMapping("/produce")
-//    @ResponseBody
-//    public String produce(@RequestParam String msg) {
-//        strudentService.produceMessage(msg);
-//        return "true";
-//    }
-//
-//    @GetMapping("/listenable")
-//    @ResponseBody
-//    public String studentsFuture() {
-//        strudentService.sendMessage("listenable future");
-//
-//        return "true";
-//    }
 
 
     @GetMapping("/")
@@ -47,6 +31,7 @@ static int i=0;
     @PostMapping("/customer")
     @ResponseBody
     public String greetingSubmit(@ModelAttribute Customer customer) {
+        customer.setEventType(CREATE_CUSTOMER);
         strudentService.produceMessage(""+i,customer);
         i++;
         return customer.toString();
@@ -61,6 +46,7 @@ static int i=0;
     @PostMapping("/updated")
     @ResponseBody
     public String updated(@ModelAttribute Customer customer){
+        customer.setEventType(UPDATE_CUSTOMER);
         strudentService.produceMessage(""+customer.getId(),customer);
         return customer.toString1();
     }
@@ -74,6 +60,7 @@ static int i=0;
     @PostMapping("/deleted")
     @ResponseBody
     public String deleted(@ModelAttribute Customer customer){
+        customer.setEventType(DELETE_CUSTOMER);
         strudentService.produceMessage(""+customer.getId(),customer);
         return customer.getId()+"";
     }
